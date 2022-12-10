@@ -38,8 +38,8 @@ The Rover continues to navigate the map  trying to locate many rocks as possible
 When the rover finds a deadend, it automatically rotates and finds another path
 ![image](https://user-images.githubusercontent.com/67200068/206852468-6df57761-8b47-45e5-9f60-d6027cbe622a.png)
 
-
-
+---
+The map on the left indicate the rover vision whether it is an obstacle (red) or a navigable terrain(blue)
 ![image](https://user-images.githubusercontent.com/67200068/206852542-d3433882-1f11-44c3-9d96-a5ee0c731d37.png)
 
 
