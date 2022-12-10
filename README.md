@@ -26,7 +26,7 @@ A computer vision for robotics project. The project phase 1 aim to do mapping of
 
 ---
 ---
-### As the rover starts to drive, the obstacles which are cpatured by thr rover are red in the world map and the navigable terrain is blue
+### As the rover starts to drive, the obstacles which are captured by thr rover are red in the world map and the navigable terrain is blue
 ![image](https://user-images.githubusercontent.com/67200068/206852222-7d294be6-ee3a-4197-a36e-85757babd2d9.png)
 
 ---
