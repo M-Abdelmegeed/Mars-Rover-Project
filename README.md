@@ -20,6 +20,6 @@ A computer vision for robotics project. The project aim to do mapping of navigab
 
 
 ##Phase 1 Screenshots
-the starting screen (Empty World Map)
+###the starting screen (Empty World Map)
 
 
