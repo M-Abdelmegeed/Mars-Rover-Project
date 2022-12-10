@@ -9,16 +9,18 @@ A computer vision for robotics project. The project phase 1 aim to do mapping of
 ## How to run the project (UBUNTU)
 1) Download the project directory , go to /Mars-Rover-Project/code , right click then click on open terminal
 ![image](https://user-images.githubusercontent.com/67200068/206851231-72e22e2d-a7e5-47ec-bfca-08f68e0cdc8f.png)
-2)run driver_rover.py by the command **python3 drive_rover.py**
+2) run driver_rover.py by the command **python3 drive_rover.py**
 ![image](https://user-images.githubusercontent.com/67200068/206850761-906ff188-94ca-4a23-837f-9c314067782d.png)
-3)Download Linx_Roversim and run **Roversim.x86_64**
+3) Download Linx_Roversim and run **Roversim.x86_64**
 ![image](https://user-images.githubusercontent.com/67200068/206851001-32f6d9ad-3fa3-4a78-8544-afe706fe095e.png)
-4)choose to ride autonomous mode and enjoy **PHASE 1**
+4) choose to ride autonomous mode and enjoy **PHASE 1**
 ![image](https://user-images.githubusercontent.com/67200068/206851302-b2d9a0df-a1af-43ff-93b6-cb554e8723fa.png)
 
 
 
 ## Phase 1 Screenshots
+---
+---
 ### The starting screen (Empty World Map)
 ![image](https://user-images.githubusercontent.com/67200068/206852082-b7841096-4c5c-4fcc-b6f7-b9471e5a6676.png)
 
@@ -44,7 +46,7 @@ A computer vision for robotics project. The project phase 1 aim to do mapping of
 
 ---
 ---
-### The map on the left indicate the rover vision whether it is an obstacle (red) or a navigable terrain(blue)
+### The map on the left indicates the rover vision whether it is an obstacle (red) or a navigable terrain(blue)
 ![image](https://user-images.githubusercontent.com/67200068/206852542-d3433882-1f11-44c3-9d96-a5ee0c731d37.png)
 
 
