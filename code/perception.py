@@ -186,6 +186,7 @@ def perception_step(Rover):
         # Rover.nav_dists = rover_centric_pixel_distances
         # Rover.nav_angles = rover_centric_angles
     Rover.nav_angles=angles
+    Rover.nav_dists=dist
 
      #################   Finding Rocks    ##############################
     rock_map= find_rocks(warped, levels=(red_thresh,green_thresh,blue_thresh)) #Using threshold values computed
@@ -198,8 +199,12 @@ def perception_step(Rover):
         rock_xcen=rock_x_world[rock_idx]
         rock_ycen=rock_y_world[rock_idx]
 
+        Rover.samp_dists = rock_dist
+        Rover.samp_angles = rock_ang
+
         Rover.worldmap[rock_ycen,rock_xcen,1]=255
         Rover.vision_image[:,:,1]=rock_map*255
+
 
 
     else:
