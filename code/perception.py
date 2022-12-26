@@ -73,7 +73,11 @@ def pix_to_world(xpix, ypix, xpos, ypos, yaw, world_size, scale):
 
 # Define a function to perform a perspective transform
 def perspect_transform(img, src, dst):
-           
+
+    circle = np.ones((150, 150), dtype="uint8")
+    circle_mask=cv2.circle(circle, (75, -33), 75, 0, -1)
+    circle_mask=cv2.resize(circle_mask,(img.shape[1], img.shape[0]))
+    img=cv2.bitwise_and(img,img,mask=circle_mask)       
     M = cv2.getPerspectiveTransform(src, dst)
     warped = cv2.warpPerspective(img, M, (img.shape[1], img.shape[0]))# keep same size as input image
     mask = cv2.warpPerspective(np.ones_like(img[:,:,0]), M, (img.shape[1], img.shape[0]))
