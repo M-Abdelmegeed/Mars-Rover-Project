@@ -12,11 +12,11 @@ def color_thresh(img, rgb_thresh=(160, 160, 160)):
     # above_thresh will now contain a boolean array with "True"
     # where threshold was met
     above_thresh = (img[:,:,0] > rgb_thresh[0]) \
-                & (img[:,:,0] <255) \
+                & (img[:,:,0] <=255) \
                 & (img[:,:,1] > rgb_thresh[1]) \
-                & (img[:,:,1] < 255) \
+                & (img[:,:,1] <= 255) \
                 & (img[:,:,2] > rgb_thresh[2]) \
-                & (img[:,:,2] <255)
+                & (img[:,:,2] <=255)
     # Index the array of zeros with the boolean array and set to 1
     color_select[above_thresh] = 1
     # Return the binary image
@@ -198,6 +198,9 @@ def perception_step(Rover):
     Rover.nav_angles=angles
     Rover.nav_dists=dist
 
+
+
+
      #################   Finding Rocks    ##############################
     rock_map= find_rocks(warped, levels=(red_thresh,green_thresh,blue_thresh)) #Using threshold values computed
     if rock_map.any():
@@ -212,7 +215,7 @@ def perception_step(Rover):
         Rover.samp_dists = rock_dist
         Rover.samp_angles = rock_ang
 
-        Rover.near_sample=1
+        
        
         Rover.worldmap[rock_ycen,rock_xcen,1]=255
         Rover.vision_image[:,:,1]=rock_map*255
@@ -221,10 +224,15 @@ def perception_step(Rover):
 
     else:
         Rover.vision_image[:,:,1]=0
-        Rover.near_sample=0
-        Rover.mode='forward'
+        
+
       
     
+
+
+
+
+
     return Rover
 
 
