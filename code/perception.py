@@ -178,8 +178,17 @@ def perception_step(Rover):
         # Example: Rover.worldmap[obstacle_y_world, obstacle_x_world, 0] += 1
         #          Rover.worldmap[rock_y_world, rock_x_world, 1] += 1
         #          Rover.worldmap[navigable_y_world, navigable_x_world, 2] += 1
-    Rover.worldmap[y_world, x_world, 2] += 10 # Coloring the blue channel for the navigable road
-    Rover.worldmap[obs_y_world, obs_x_world, 0] += 1 # Coloring the red channel for the obstacles
+
+
+
+
+
+
+        # Update world map if we are not tilted more than 0.5 deg
+    if (Rover.roll < 0.5 or Rover.roll > 359.5) or (Rover.pitch < 0.5 or Rover.pitch > 359.5):
+
+        Rover.worldmap[y_world, x_world, 2] += 10 # Coloring the blue channel for the navigable road
+        Rover.worldmap[obs_y_world, obs_x_world, 0] += 1 # Coloring the red channel for the obstacles
 
     # 8) Convert rover-centric pixel positions to polar coordinates
     dist, angles=to_polar_coords(xpix,ypix)
@@ -203,8 +212,8 @@ def perception_step(Rover):
         Rover.samp_dists = rock_dist
         Rover.samp_angles = rock_ang
 
-        # Rover.near_sample=1
-        # Rover.mode='stop'
+        Rover.near_sample=1
+       
         Rover.worldmap[rock_ycen,rock_xcen,1]=255
         Rover.vision_image[:,:,1]=rock_map*255
 
@@ -212,6 +221,8 @@ def perception_step(Rover):
 
     else:
         Rover.vision_image[:,:,1]=0
+        Rover.near_sample=0
+        Rover.mode='forward'
       
     
     return Rover
