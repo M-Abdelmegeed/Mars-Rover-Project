@@ -77,12 +77,9 @@ def pix_to_world(xpix, ypix, xpos, ypos, yaw, world_size, scale):
 # Define a function to perform a perspective transform
 def perspect_transform(img, src, dst):
 
-    circle = np.ones((150, 150), dtype="uint8")
-    circle_mask=cv2.circle(circle, (75, -33), 75, 0, -1)
-    circle_mask=cv2.resize(circle_mask,(img.shape[1], img.shape[0]))
-    img=cv2.bitwise_and(img,img,mask=circle_mask)       
+       
     M = cv2.getPerspectiveTransform(src, dst)
-    warped = cv2.warpPerspective(img, M, (img.shape[1], img.shape[0]))# keep same size as input image
+    warped = cv2.warpPerspective(img, M, (img.shape[1], img.shape[0]))# keep same size as input image 
     mask = cv2.warpPerspective(np.ones_like(img[:,:,0]), M, (img.shape[1], img.shape[0]))
     
     return warped,mask
@@ -147,8 +144,24 @@ def perception_step(Rover):
                     ])
     # 2) Apply perspective transform
     warped, mask = perspect_transform(image, source, destination)
+
+
+
+    # circle = np.ones((150, 150), dtype="uint8")
+    # circle_mask=cv2.circle(circle, (75, 170), 75, 255, -1)
+    # circle_mask=cv2.resize(circle_mask,(Rover.img.shape[1], Rover.img.shape[0]))
+   
+    blank = np.zeros_like(warped)
+
+    circle = cv2.circle(blank.copy(),(75, 170),120,(255,255,255),-1)
+    circle_mask = color_thresh(circle,(254,254,254))
+
+
+    warped=cv2.bitwise_and(warped,warped,mask= circle_mask)
+    
     # 3) Apply color threshold to identify navigable terrain/obstacles/rock samples
     threshed = color_thresh(warped)
+   
     obs_map= np.absolute(np.float32(threshed)-1)*mask
     # 4) Update Rover.vision_image (this will be displayed on left side of screen)
         # Example: Rover.vision_image[:,:,0] = obstacle color-thresholded binary image
@@ -185,7 +198,7 @@ def perception_step(Rover):
 
 
         # Update world map if we are not tilted more than 0.5 deg
-    if (Rover.roll < 0.5 or Rover.roll > 359.5) or (Rover.pitch < 0.5 or Rover.pitch > 359.5):
+    if ((Rover.pitch < 1 or Rover.pitch > 359) and (Rover.roll < 1 or Rover.roll > 359)):
 
         Rover.worldmap[y_world, x_world, 2] += 10 # Coloring the blue channel for the navigable road
         Rover.worldmap[obs_y_world, obs_x_world, 0] += 1 # Coloring the red channel for the obstacles
@@ -195,13 +208,20 @@ def perception_step(Rover):
     # Update Rover pixel distances and angles
         # Rover.nav_dists = rover_centric_pixel_distances
         # Rover.nav_angles = rover_centric_angles
+
+
+
+
+
+
+
     Rover.nav_angles=angles
     Rover.nav_dists=dist
 
 
 
 
-     #################   Finding Rocks    ##############################
+    #################   Finding Rocks    ##############################
     rock_map= find_rocks(warped, levels=(red_thresh,green_thresh,blue_thresh)) #Using threshold values computed
     if rock_map.any():
         rock_x, rock_y = rover_coords(rock_map)

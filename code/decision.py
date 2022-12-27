@@ -9,6 +9,18 @@ def decision_step(Rover):
     # Here you're all set up with some basic functionality but you'll need to
     # improve on this decision tree to do a good job of navigating autonomously!
 
+
+
+
+
+
+
+
+
+
+
+
+
     # Example:
     # Check if we have vision data to make decisions with
     if Rover.nav_angles is not None:
@@ -25,14 +37,14 @@ def decision_step(Rover):
                     Rover.throttle = 0
                 Rover.brake = 0
                 # Set steering to average angle clipped to the range +/- 15
-                Rover.steer = np.clip(np.mean(Rover.nav_angles * 180/np.pi), -15, 15)
+                Rover.steer = np.clip(np.mean(Rover.nav_angles * 180/np.pi), -15,15)
             # If there's a lack of navigable terrain pixels then go to 'stop' mode
             elif len(Rover.nav_angles) < Rover.stop_forward:
                     # Set mode to "stop" and hit the brakes!
                     Rover.throttle = 0
                     # Set brake to stored brake value
                     Rover.brake = Rover.brake_set
-                    Rover.steer = 0
+                    Rover.steer = 10
                     Rover.mode = 'stop'
 
         # If we're already in "stop" mode then make different decisions
@@ -67,8 +79,10 @@ def decision_step(Rover):
         Rover.steer = 0
         Rover.brake = 0
         
-    # If in a state where want to pickup a rock send pickup command
+    #If in a state where want to pickup a rock send pickup command
     if Rover.near_sample and Rover.vel == 0 and not Rover.picking_up:
+
+
         Rover.send_pickup = True
     
     return Rover
