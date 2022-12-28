@@ -127,7 +127,7 @@ green_thresh=(centroid[2][1]+centroid[3][1])/2
 blue_thresh=(centroid[2][2]+centroid[3][2])/2
 
 
-###############################################################################
+##############################################################################
 
 
 # Apply the above functions in succession and update the Rover state accordingly
