@@ -78,17 +78,17 @@ def pix_to_world(xpix, ypix, xpos, ypos, yaw, world_size, scale):
 def perspect_transform(img, src, dst):
 
        
-    circle = np.zeros((150, 150), dtype="uint8")
-    circle_mask=cv2.circle(circle, (75, 140), 75, 255, -1)
-    circle_mask=cv2.resize(circle_mask,(img.shape[1], img.shape[0]))
-    img1=cv2.bitwise_and(img,img,mask=circle_mask)
+    # circle = np.zeros((150, 150), dtype="uint8")
+    # circle_mask=cv2.circle(circle, (75, 140), 75, 255, -1)
+    # circle_mask=cv2.resize(circle_mask,(img.shape[1], img.shape[0]))
+    # img1=cv2.bitwise_and(img,img,mask=circle_mask)
     M = cv2.getPerspectiveTransform(src, dst)
-    warped = cv2.warpPerspective(img1, M, (img1.shape[1], img1.shape[0]))# keep same size as input image
-    mask1 = cv2.warpPerspective(np.ones_like(img1[:,:,0]), M, (img1.shape[1], img1.shape[0]))
-    mask1=cv2.bitwise_and(mask1,mask1,mask=circle_mask)
+    warped = cv2.warpPerspective(img, M, (img.shape[1], img.shape[0]))# keep same size as input image
+    mask = cv2.warpPerspective(np.ones_like(img[:,:,0]), M, (img.shape[1], img.shape[0]))
+    
 
     
-    return warped,mask1
+    return warped,mask
 
 
 
@@ -149,7 +149,7 @@ def perception_step(Rover):
                     [image.shape[1]/2 - dst_size, image.shape[0] - 2*dst_size - bottom_offset],
                     ])
     # 2) Apply perspective transform
-    warped, mask = perspect_transform(image, source, destination)
+    warped, mask1 = perspect_transform(image, source, destination)
 
 
 
@@ -157,13 +157,18 @@ def perception_step(Rover):
     # circle_mask=cv2.circle(circle, (75, 170), 75, 255, -1)
     # circle_mask=cv2.resize(circle_mask,(Rover.img.shape[1], Rover.img.shape[0]))
 
-
+       
+    circle = np.zeros((150, 150), dtype="uint8")
+    circle_mask=cv2.circle(circle, (75, 140), 75, 255, -1)
+    circle_mask=cv2.resize(circle_mask,(image.shape[1], image.shape[0]))
+    warped=cv2.bitwise_and(image,image,mask=circle_mask)
+    mask1=cv2.bitwise_and(mask1,mask1,mask=circle_mask)
 
     
     # 3) Apply color threshold to identify navigable terrain/obstacles/rock samples
     threshed = color_thresh(warped)
    
-    obs_map= np.absolute(np.float32(threshed)-1)*mask
+    obs_map= np.absolute(np.float32(threshed)-1)*mask1
     # 4) Update Rover.vision_image (this will be displayed on left side of screen)
         # Example: Rover.vision_image[:,:,0] = obstacle color-thresholded binary image
         #          Rover.vision_image[:,:,1] = rock_sample color-thresholded binary image
