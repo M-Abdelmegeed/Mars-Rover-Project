@@ -159,7 +159,7 @@ def perception_step(Rover):
 
        
     circle = np.zeros((150, 150), dtype="uint8")
-    circle_mask=cv2.circle(circle, (75, 120), 75, 255, -1)
+    circle_mask=cv2.circle(circle, (75, 140), 75, 255, -1)
     circle_mask=cv2.resize(circle_mask,(image.shape[1], image.shape[0]))
 
     if Rover.mode !='dead':
