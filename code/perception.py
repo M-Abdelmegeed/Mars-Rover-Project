@@ -237,19 +237,27 @@ def perception_step(Rover):
         rock_idx=np.argmin(rock_dist)
         rock_xcen=rock_x_world[rock_idx]
         rock_ycen=rock_y_world[rock_idx]
+        
+        #print(rock_ang)
 
-        Rover.samp_dists = rock_dist
-        Rover.samp_angles = rock_ang
+        #print("Rover.sample_pos: ",Rover.samples_pos)
+        #print("Rover.samples_pos test: ", rock_x_world, rock_y_world)
 
         
        
         Rover.worldmap[rock_ycen,rock_xcen,1]=255
         Rover.vision_image[:,:,1]=rock_map*255
+        Rover.mode='found'
+
+        #Rover.nav_angles=rock_ang
+        #Rover.nav_dists=rock_dists-5
 
 
 
     else:
         Rover.vision_image[:,:,1]=0
+        if Rover.mode=='found':
+            Rover.mode='stop'
         
 
       
