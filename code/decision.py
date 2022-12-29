@@ -64,7 +64,7 @@ def decision_step(Rover):
                     Rover.mode = 'forward'
 
         elif Rover.mode == 'found':
-            distancerock = min(Rover.samples_dists)
+            distancerock = np.min(Rover.samples_dists)
             print(distancerock)
             if Rover.near_sample:
                 Rover.throttle = 0

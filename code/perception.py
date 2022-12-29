@@ -159,9 +159,9 @@ def perception_step(Rover):
 
        
     circle = np.zeros((150, 150), dtype="uint8")
-    circle_mask=cv2.circle(circle, (75, 140), 75, 255, -1)
+    circle_mask=cv2.circle(circle, (75, 150), 75, 255, -1)
     circle_mask=cv2.resize(circle_mask,(image.shape[1], image.shape[0]))
-    warped=cv2.bitwise_and(image,image,mask=circle_mask)
+    warped=cv2.bitwise_and(warped,warped,mask=circle_mask)
     mask1=cv2.bitwise_and(mask1,mask1,mask=circle_mask)
 
     
@@ -244,7 +244,7 @@ def perception_step(Rover):
         #print("Rover.samples_pos test: ", rock_x_world, rock_y_world)
 
         Rover.samples_digits=rock_dist
-        Rover.samples_rock_ang
+        Rover.samples_angles=rock_ang
         
        
         Rover.worldmap[rock_ycen,rock_xcen,1]=255
