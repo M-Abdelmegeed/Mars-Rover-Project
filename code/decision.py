@@ -9,6 +9,30 @@ def decision_step(Rover):
     # Here you're all set up with some basic functionality but you'll need to
     # improve on this decision tree to do a good job of navigating autonomously!
 
+
+    if Rover.mode == 'dead':
+        print("Stopping looping")
+        Rover.throttle = 0
+        Rover.steer = -6
+        Rover.brake = 0
+        Rover.loop += 1
+        if Rover.loop > 50: 
+            Rover.mode = 'forward'
+            Rover.loop = 0
+        return Rover
+
+    if Rover.steer > 2:
+        Rover.loop += 1
+    else:
+        Rover.loop = 0
+
+    if Rover.loop > 250:
+        Rover.mode = 'dead'
+        Rover.loop = 0
+        return Rover
+
+
+
     # Example:
     # Check if we have vision data to make decisions with
     if Rover.nav_angles is not None:
