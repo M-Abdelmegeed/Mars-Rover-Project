@@ -246,7 +246,7 @@ def perception_step(Rover):
         #print("Rover.samples_pos test: ", rock_x_world, rock_y_world)
 
         Rover.samples_digits=rock_dist
-        Rover.samples_rock_ang
+        Rover.samples_angles=rock_ang
         
        
         Rover.worldmap[rock_ycen,rock_xcen,1]=255
