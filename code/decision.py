@@ -29,6 +29,29 @@ def decision_step(Rover):
         Rover.looping = 0
         return Rover
 
+    if Rover.mode == 'stuck':
+        if Rover.stuck_mode == 'forward':
+            print("Stuck Forward")
+            Rover.throttle = 1
+            #Rover.steer = 0
+            Rover.stuck_counter += 1
+            if Rover.stuck_counter > 45:
+                Rover.stuck_mode = 'yaw'
+                Rover.stuck_counter = 0
+        elif Rover.stuck_mode == 'yaw':
+            print("Stuck Yaw")
+            Rover.throttle = 0
+            Rover.steer = -15
+            Rover.stuck_counter += 1
+            if Rover.stuck_counter > 20:
+                Rover.stuck_mode = 'forward'
+                Rover.stuck_counter = 0
+
+    if Rover.vel > 0.6:
+        Rover.mode = 'forward'
+
+    return Rover
+
     # Example:
     # Check if we have vision data to make decisions with
     if Rover.nav_angles is not None:
