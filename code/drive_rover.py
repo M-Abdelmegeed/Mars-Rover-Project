@@ -71,6 +71,8 @@ class RoverState():
         # on screen in autonomous mode
         self.vision_image = np.zeros((160, 320, 3), dtype=np.float)
         # Worldmap
+        self.stuck_counter = 0
+        self.stuck_mode = 'forward'
         # Update this image with the positions of navigable terrain
         # obstacles and rock samples
         self.worldmap = np.zeros((200, 200, 3), dtype=np.float)
