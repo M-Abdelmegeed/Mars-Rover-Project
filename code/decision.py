@@ -96,7 +96,7 @@ def decision_step(Rover):
                 # Rover.mode = 'forward'
             else:
                 if Rover.vel > 0.6:
-                    Rover.brake = 2
+                    Rover.brake = 0.7
                     Rover.throttle = 0
                     Rover.steer = np.mean(Rover.samples_angles)
                 else:
