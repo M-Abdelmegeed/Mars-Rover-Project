@@ -90,7 +90,7 @@ def decision_step(Rover):
                 Rover.throttle = 0
                 Rover.brake = 10
                 Rover.steer = 0
-                Rover.mode = 'forward'
+                # Rover.mode = 'forward'
             else:
                 if Rover.vel > 0.6:
                     Rover.brake = Rover.brake_set
@@ -114,7 +114,6 @@ def decision_step(Rover):
         Rover.samples_dists = 0
         Rover.samples_angles = 0
         Rover.send_pickup = True
-        if Rover.picking_up:
-            Rover.mode = 'forward'
+        Rover.mode = 'forward'
 
     return Rover
