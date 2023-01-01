@@ -10,6 +10,7 @@ def decision_step(Rover):
     # improve on this decision tree to do a good job of navigating autonomously!
 
     if Rover.mode == 'dead':
+        print("Dead")
         Rover.throttle = 0
         Rover.steer = -6
         Rover.brake = 0
@@ -19,7 +20,7 @@ def decision_step(Rover):
             Rover.looping = 0
         return Rover
 
-    if Rover.steer > 5:
+    if Rover.steer > 5 or Rover.steer < -5:
         Rover.looping += 1
     else:
         Rover.looping = 0
@@ -29,29 +30,8 @@ def decision_step(Rover):
         Rover.looping = 0
         return Rover
 
-    if Rover.mode == 'stuck':
-        if Rover.stuck_mode == 'forward':
-            print("Stuck Forward")
-            Rover.throttle = 1
-            #Rover.steer = 0
-            Rover.stuck_counter += 1
-            if Rover.stuck_counter > 45:
-                Rover.stuck_mode = 'yaw'
-                Rover.stuck_counter = 0
-        elif Rover.stuck_mode == 'yaw':
-            print("Stuck Yaw")
-            Rover.throttle = 0
-            Rover.steer = -15
-            Rover.stuck_counter += 1
-            if Rover.stuck_counter > 20:
-                Rover.stuck_mode = 'forward'
-                Rover.stuck_counter = 0
-
-        if Rover.vel > 0.6:
-            Rover.mode = 'forward'
-
-        return Rover
-
+    Rover.nav_angles = np.sort(
+        Rover.nav_angles)[-int(len(Rover.nav_angles)/2):]
     # Example:
     # Check if we have vision data to make decisions with
     if Rover.nav_angles is not None:
@@ -116,7 +96,7 @@ def decision_step(Rover):
                 # Rover.mode = 'forward'
             else:
                 if Rover.vel > 0.6:
-                    Rover.brake = Rover.brake_set
+                    Rover.brake = 2
                     Rover.throttle = 0
                     Rover.steer = np.mean(Rover.samples_angles)
                 else:
