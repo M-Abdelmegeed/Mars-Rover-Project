@@ -157,14 +157,15 @@ def perception_step(Rover):
     # circle_mask=cv2.circle(circle, (75, 170), 75, 255, -1)
     # circle_mask=cv2.resize(circle_mask,(Rover.img.shape[1], Rover.img.shape[0]))
 
-       
-    circle = np.zeros((150, 150), dtype="uint8")
-    circle_mask=cv2.circle(circle, (75, 140), 75, 255, -1)
-    circle_mask=cv2.resize(circle_mask,(image.shape[1], image.shape[0]))
-
-    if Rover.mode !='dead':
+    if Rover.mode != 'dead':  
+        circle = np.zeros((150, 150), dtype="uint8")
+        circle_mask=cv2.circle(circle, (75, 160), 75, 255, -1)
+        circle_mask=cv2.resize(circle_mask,(image.shape[1], image.shape[0]))
         warped=cv2.bitwise_and(warped,warped,mask=circle_mask)
         mask1=cv2.bitwise_and(mask1,mask1,mask=circle_mask)
+    
+    
+    
 
     
     # 3) Apply color threshold to identify navigable terrain/obstacles/rock samples
@@ -206,7 +207,7 @@ def perception_step(Rover):
 
 
         # Update world map if we are not tilted more than 0.5 deg
-    if ((Rover.pitch < 1 or Rover.pitch > 359) and (Rover.roll < 1 or Rover.roll > 359)):
+    if (Rover.pitch < 1 or Rover.pitch > 359) and (Rover.roll < 1 or Rover.roll > 359) and Rover.mode != 'found' :
 
         Rover.worldmap[y_world, x_world, 2] += 10 # Coloring the blue channel for the navigable road
         Rover.worldmap[obs_y_world, obs_x_world, 0] += 1 # Coloring the red channel for the obstacles
