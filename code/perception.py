@@ -206,7 +206,7 @@ def perception_step(Rover):
 
 
 
-        # Update world map if we are not tilted more than 0.5 deg
+        # Update world map if we are not tilted more than 0.5 degrees
     if (Rover.pitch < 1 or Rover.pitch > 359) and (Rover.roll < 1 or Rover.roll > 359) and Rover.mode != 'found' :
 
         Rover.worldmap[y_world, x_world, 2] += 10 # Coloring the blue channel for the navigable road
