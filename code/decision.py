@@ -25,7 +25,7 @@ def decision_step(Rover):
     else:
         Rover.looping = 0
 
-    if Rover.looping > 270:
+    if Rover.looping > 120:
         Rover.mode = 'dead'
         Rover.looping = 0
         return Rover
