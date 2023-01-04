@@ -263,8 +263,8 @@ def perception_step(Rover):
 
     else:
         Rover.vision_image[:,:,1]=0
-        # if Rover.mode=='found':
-        #     Rover.mode='stop'
+        if Rover.mode=='found':
+            Rover.mode='stop'
         
 
       
