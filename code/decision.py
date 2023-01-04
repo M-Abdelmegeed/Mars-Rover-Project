@@ -88,10 +88,13 @@ def decision_step(Rover):
                     Rover.mode = 'forward'
 
         elif Rover.mode == 'found':
-            distancerock = Rover.samples_dists
-            print("distance to rock:")
-            print(distancerock)
-            if Rover.near_sample:
+            if Rover.samples_angles < Rover.nav_angles:
+                Rover.mode = 'forward'
+
+            elif Rover.near_sample:
+                distancerock = Rover.samples_dists
+                print("distance to rock:")
+                print(distancerock)
                 Rover.throttle = 0
                 Rover.brake = 4
                 Rover.steer = 0
