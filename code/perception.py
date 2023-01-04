@@ -159,7 +159,7 @@ def perception_step(Rover):
 
     if Rover.mode != 'dead':  
         circle = np.zeros((150, 150), dtype="uint8")
-        circle_mask=cv2.circle(circle, (75, 170), 75, 255, -1)
+        circle_mask=cv2.circle(circle, (65, 170), 75, 255, -1)
         circle_mask=cv2.resize(circle_mask,(image.shape[1], image.shape[0]))
         warped=cv2.bitwise_and(warped,warped,mask=circle_mask)
         mask1=cv2.bitwise_and(mask1,mask1,mask=circle_mask)
@@ -254,6 +254,7 @@ def perception_step(Rover):
        
         Rover.worldmap[rock_ycen,rock_xcen,1]=255
         Rover.vision_image[:,:,1]=rock_map*255
+        Rover.worldmap[rock_y_world, rock_x_world, 0] += 1
         Rover.mode='found'
 
         #Rover.nav_angles=rock_ang
