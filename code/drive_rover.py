@@ -61,7 +61,7 @@ class RoverState():
         self.looping = 0  # To know of the rover is looping and not going forward
         # The stop_forward and go_forward fields below represent total count
         # of navigable terrain pixels.  This is a very crude form of knowing
-        # when you can keep going and when you should stop.  Feel free to
+        # when you can keep going and when you should stop.  Feel free t
         # get creative in adding new fields or modifying these!
         self.stop_forward = 310  # Threshold to initiate stopping
         self.go_forward = 350  # Threshold to go forward again
