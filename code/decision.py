@@ -84,7 +84,7 @@ def decision_step(Rover):
                     Rover.brake = 0
                     # Set steer to mean angle
                     Rover.steer = np.clip(
-                        np.mean((Rover.nav_angles * 180/np.pi)), -15, 15)*0.9
+                        np.mean((Rover.nav_angles * 180/np.pi)), -15, 15)*0.87
                     Rover.mode = 'forward'
 
         elif Rover.mode == 'found':
@@ -105,7 +105,7 @@ def decision_step(Rover):
                     Rover.brake = 0
                     Rover.throttle = 0.2
                     Rover.steer = np.clip(
-                        np.mean((Rover.samples_angles * 180/np.pi)), -15, 15)*0.9
+                        np.mean((Rover.samples_angles * 180/np.pi)), -15, 15)*0.87
 
     # Just to make the rover do something
     # even if no modifications have been made to the code
