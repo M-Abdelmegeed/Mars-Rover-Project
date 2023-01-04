@@ -207,7 +207,7 @@ def perception_step(Rover):
 
 
         # Update world map if we are not tilted more than 0.5 degrees
-    if (Rover.pitch < 1 or Rover.pitch > 359) and (Rover.roll < 1 or Rover.roll > 359) and Rover.mode != 'found' :
+    if (Rover.pitch < 1 or Rover.pitch > 359) and (Rover.roll < 1 or Rover.roll > 359) and Rover.mode != 'found' and Rover.vel != 0 :
 
         Rover.worldmap[y_world, x_world, 2] += 10 # Coloring the blue channel for the navigable road
         Rover.worldmap[obs_y_world, obs_x_world, 0] += 1 # Coloring the red channel for the obstacles
@@ -246,8 +246,10 @@ def perception_step(Rover):
         #print("Rover.sample_pos: ",Rover.samples_pos)
         #print("Rover.samples_pos test: ", rock_x_world, rock_y_world)
 
-        Rover.samples_digits=rock_dist
+        Rover.samples_dists=rock_dist
         Rover.samples_angles=rock_ang
+        # print(rock_dist)
+        # print(rock_ang)
         
        
         Rover.worldmap[rock_ycen,rock_xcen,1]=255
@@ -261,8 +263,8 @@ def perception_step(Rover):
 
     else:
         Rover.vision_image[:,:,1]=0
-        if Rover.mode=='found':
-            Rover.mode='stop'
+        # if Rover.mode=='found':
+        #     Rover.mode='stop'
         
 
       

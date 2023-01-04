@@ -32,6 +32,7 @@ def decision_step(Rover):
 
     Rover.nav_angles = np.sort(
         Rover.nav_angles)[-int(len(Rover.nav_angles)/2):]
+    # print(Rover.nav_angles)
     # Example:
     # Check if we have vision data to make decisions with
     if Rover.nav_angles is not None:
@@ -83,11 +84,12 @@ def decision_step(Rover):
                     Rover.brake = 0
                     # Set steer to mean angle
                     Rover.steer = np.clip(
-                        np.mean(Rover.nav_angles * 180/np.pi), -15, 15)
+                        np.mean((Rover.nav_angles * 180/np.pi)*0.9), -15, 15)
                     Rover.mode = 'forward'
 
         elif Rover.mode == 'found':
-            distancerock = np.mean(Rover.samples_dists)
+            distancerock = Rover.samples_dists
+            print("distance to rock:")
             print(distancerock)
             if Rover.near_sample:
                 Rover.throttle = 0
@@ -96,14 +98,14 @@ def decision_step(Rover):
                 # Rover.mode = 'forward'
             else:
                 if Rover.vel > 0.6:
-                    Rover.brake = 0.7
+                    Rover.brake = 0.2
                     Rover.throttle = 0
                     Rover.steer = np.mean(Rover.samples_angles)
                 else:
                     Rover.brake = 0
                     Rover.throttle = 0.2
                     Rover.steer = np.clip(
-                        np.mean(Rover.samples_angles * 180/np.pi), -15, 15)
+                        np.mean((Rover.samples_angles * 180/np.pi)*0.9), -15, 15)
 
     # Just to make the rover do something
     # even if no modifications have been made to the code
