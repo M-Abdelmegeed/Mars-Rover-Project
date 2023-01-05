@@ -92,7 +92,7 @@ def decision_step(Rover):
         elif Rover.mode == 'found':
             if np.clip(
                     np.max(Rover.samples_angles * 180/np.pi), -15, 15) < np.clip(
-                    np.min((Rover.nav_angles * 180/np.pi)*0.6), -15, 15):
+                    np.mean(Rover.nav_angles * 180/np.pi), -15, 15)-3:
                 Rover.mode = 'forward'
 
             elif Rover.near_sample:
