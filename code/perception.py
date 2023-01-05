@@ -2,10 +2,11 @@ import numpy as np
 import cv2
 from sklearn.cluster import KMeans
 import matplotlib.image as mpimg
+import scipy
 
 # Identify pixels above the threshold
 # Threshold of RGB > 160 does a nice job of identifying ground pixels only
-def color_thresh(img, rgb_thresh=(160, 160, 160)):
+def color_thresh(img, rgb_thresh=(150, 150, 150)):
     # Create an array of zeros same xy size as img, but single channel
     color_select = np.zeros_like(img[:,:,0])
     # Require that each pixel be above all three threshold values in RGB
@@ -142,7 +143,10 @@ def perception_step(Rover):
 # this is just a rough guess, feel free to change it!
     bottom_offset = 4
     # 1) Define source and destination points for perspective transform
-    source = np.float32([[14, 140], [301 ,140],[200, 96], [118, 96]])
+    source = np.float32([[14, 140],
+                         [300, 140],
+                         [200, 95],
+                         [120, 95]])
     destination = np.float32([[image.shape[1]/2 - dst_size, image.shape[0] - bottom_offset],
                     [image.shape[1]/2 + dst_size, image.shape[0] - bottom_offset],
                     [image.shape[1]/2 + dst_size, image.shape[0] - 2*dst_size - bottom_offset], 
@@ -157,12 +161,12 @@ def perception_step(Rover):
     # circle_mask=cv2.circle(circle, (75, 170), 75, 255, -1)
     # circle_mask=cv2.resize(circle_mask,(Rover.img.shape[1], Rover.img.shape[0]))
 
-    if Rover.mode != 'dead':  
-        circle = np.zeros((150, 150), dtype="uint8")
-        circle_mask=cv2.circle(circle, (75, 205), 90, 255, -1)
-        circle_mask=cv2.resize(circle_mask,(image.shape[1], image.shape[0]))
-        warped=cv2.bitwise_and(warped,warped,mask=circle_mask)
-        mask1=cv2.bitwise_and(mask1,mask1,mask=circle_mask)
+   
+    circle = np.zeros((150, 150), dtype="uint8")
+    circle_mask=cv2.circle(circle, (75, 190), 90, 255, -1)
+    circle_mask=cv2.resize(circle_mask,(image.shape[1], image.shape[0]))
+    warped=cv2.bitwise_and(warped,warped,mask=circle_mask)
+    mask1=cv2.bitwise_and(mask1,mask1,mask=circle_mask)
     
     
     
@@ -170,6 +174,8 @@ def perception_step(Rover):
     
     # 3) Apply color threshold to identify navigable terrain/obstacles/rock samples
     threshed = color_thresh(warped)
+    if threshed.any():
+        threshed=scipy.ndimage.binary_erosion(threshed, structure=np.ones((3,3))).astype(threshed.dtype)
    
     obs_map= np.absolute(np.float32(threshed)-1)*mask1
     # 4) Update Rover.vision_image (this will be displayed on left side of screen)
@@ -207,10 +213,10 @@ def perception_step(Rover):
 
 
         # Update world map if we are not tilted more than 0.5 degrees
-    if (Rover.pitch < 1 or Rover.pitch > 359) and (Rover.roll < 1 or Rover.roll > 359) and Rover.mode != 'found' and Rover.vel != 0 :
+    if (Rover.pitch < 0.2 or Rover.pitch > 359.8) and (Rover.roll < 0.2 or Rover.roll > 359.8) and Rover.mode != 'found' and Rover.vel != 0 :
 
-        Rover.worldmap[y_world, x_world, 2] += 1 # Coloring the blue channel for the navigable road
-        Rover.worldmap[obs_y_world, obs_x_world, 0] += 1 # Coloring the red channel for the obstacles
+        Rover.worldmap[y_world, x_world, 2] =50 # Coloring the blue channel for the navigable road
+        Rover.worldmap[obs_y_world, obs_x_world, 0] = 25 # Coloring the red channel for the obstacles
 
     # 8) Convert rover-centric pixel positions to polar coordinates
     dist, angles=to_polar_coords(xpix,ypix)

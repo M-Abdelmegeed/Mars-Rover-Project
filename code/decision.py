@@ -25,7 +25,7 @@ def decision_step(Rover):
     else:
         Rover.looping = 0
 
-    if Rover.looping > 220:
+    if Rover.looping > 250:
         Rover.mode = 'dead'
         Rover.looping = 0
         return Rover
@@ -51,7 +51,7 @@ def decision_step(Rover):
 
                 # Set steering to average angle clipped to the range +/- 15
                 Rover.steer = np.clip(
-                    np.mean((Rover.nav_angles * 180/np.pi)), -15, 15)
+                    np.mean((Rover.nav_angles * 180/np.pi)), -15, 15)-4
 
             # If there's a lack of navigable terrain pixels then go to 'stop' mode
             elif len(Rover.nav_angles) < Rover.stop_forward:
@@ -86,7 +86,7 @@ def decision_step(Rover):
                     Rover.brake = 0
                     # Set steer to mean angle
                     Rover.steer = np.clip(
-                        np.mean(Rover.nav_angles * 180/np.pi), -15, 15)
+                        np.mean(Rover.nav_angles * 180/np.pi), -15, 15)-4
                     Rover.mode = 'forward'
 
         elif Rover.mode == 'found':
