@@ -174,9 +174,19 @@ def perception_step(Rover):
     
     # 3) Apply color threshold to identify navigable terrain/obstacles/rock samples
     threshed = color_thresh(warped)
+
+
+    # rec_mask = np.zeros(image.shape[:2], dtype="uint8")
+    # cv2.rectangle(rec_mask, (80, 160), (220, 110), 255, -1)
+    # rec_mask=cv2.resize(rec_mask,(image.shape[1], image.shape[0]))
+    # threshed=cv2.bitwise_and(threshed,threshed,mask=rec_mask)
+
+
     if threshed.any():
-        threshed=scipy.ndimage.binary_erosion(threshed, structure=np.ones((3,3))).astype(threshed.dtype)
-   
+        threshed=scipy.ndimage.binary_erosion(threshed, structure=np.ones((4,4))).astype(threshed.dtype)
+
+
+    
     obs_map= np.absolute(np.float32(threshed)-1)*mask1
     # 4) Update Rover.vision_image (this will be displayed on left side of screen)
         # Example: Rover.vision_image[:,:,0] = obstacle color-thresholded binary image
@@ -216,7 +226,7 @@ def perception_step(Rover):
     if (Rover.pitch < 0.2 or Rover.pitch > 359.8) and (Rover.roll < 0.2 or Rover.roll > 359.8) and Rover.mode != 'found' and Rover.vel != 0 :
 
         Rover.worldmap[y_world, x_world, 2] =50 # Coloring the blue channel for the navigable road
-        Rover.worldmap[obs_y_world, obs_x_world, 0] = 25 # Coloring the red channel for the obstacles
+        Rover.worldmap[obs_y_world, obs_x_world, 0]=25 # Coloring the red channel for the obstacles
 
     # 8) Convert rover-centric pixel positions to polar coordinates
     dist, angles=to_polar_coords(xpix,ypix)
